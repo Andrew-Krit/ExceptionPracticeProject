@@ -10,7 +10,7 @@ public class FileManager
         this._filePath = filePath;
     }
 
-    public void writeToFile(List<String> data, boolean append)
+    public void writeToFile(List<String> data, boolean append) throws FileManagerException
     {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(_filePath, append)))
         {
@@ -22,11 +22,11 @@ public class FileManager
         }
         catch (IOException e)
         {
-            System.out.println("Ошибка при записи в файл: " + e.getMessage());
+            throw new FileManagerException("Ошибка при записи в файл", e);
         }
     }
 
-    public List<String> readFromFile()
+    public List<String> readFromFile() throws FileManagerException
     {
         try (BufferedReader reader = new BufferedReader(new FileReader(_filePath)))
         {
@@ -34,7 +34,7 @@ public class FileManager
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e);
+            throw new FileManagerException("Ошибка при чтении файла", e);
         }
     }
 }
